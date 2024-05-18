@@ -47,7 +47,7 @@ class ChatChaAdapter(BaseAdapter):
         return {
             "uid": "yyds.edu.com",
             "prompt": text,
-            "model_name": "gpt-4o",
+            "model_name": model,
             "request_timeout": 30,
             "global_timeout": 100,
             "max_retries": 1,
