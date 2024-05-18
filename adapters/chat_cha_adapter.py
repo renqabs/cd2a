@@ -184,7 +184,10 @@ class ChatChaAdapter(BaseAdapter):
             if line.startswith("event:message"):
                 json_data = json.loads(line.lstrip("event:message\ndata:"))
 
-                if json_data.get("delta"):
+                if json_data.get("message_type") == "text" and json_data.get("delta"):
                     text = json_data["delta"]
+                else:
+                    if json_data.get("message_type") == "image" and json_data.get("image_path"):
+                        text = f'\n![image]({json_data["image_path"]})\n'
 
         return text
