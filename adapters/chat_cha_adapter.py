@@ -180,7 +180,7 @@ class ChatChaAdapter(BaseAdapter):
             if not line:
                 continue
 
-            print(line)
+            # print(line)
             if line.startswith("event: message"):
                 json_data = json.loads(line.lstrip("event: message\ndata:"))
 
