@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from routes import api_router
 
 LOG_LEVEL = os.getenv("LOG_LEVEL", "info")
-PORT = int(os.getenv("PORT", 8000))
+PORT = int(os.getenv("PORT", 7860))
 
 app = FastAPI()
 app.include_router(api_router)
