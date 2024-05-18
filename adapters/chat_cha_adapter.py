@@ -47,7 +47,7 @@ class ChatChaAdapter(BaseAdapter):
         return {
             "uid": "yyds.edu.com",
             "prompt": text,
-            "model_name": model,
+            "model_name": "gpt-4o",
             "request_timeout": 30,
             "global_timeout": 100,
             "max_retries": 1,
@@ -157,10 +157,10 @@ class ChatChaAdapter(BaseAdapter):
                             continue
                         # print('take text: ' + text)
 
-                        new_text = text[len(last_text):]
-                        last_text = text
+                        # new_text = text[len(last_text):]
+                        last_text = last_text + text
                         if stream:
-                            yield self.to_openai_response_stream(model=model, content=new_text)
+                            yield self.to_openai_response_stream(model=model, content=text)
                         await self.rate_limit_sleep_async(last_time)
                         last_time = time.time()
                 if stream:
@@ -181,13 +181,10 @@ class ChatChaAdapter(BaseAdapter):
                 continue
 
             # print(line)
-            if line.startswith("event: message"):
-                json_data = json.loads(line.lstrip("event: message\ndata:"))
+            if line.startswith("event:message"):
+                json_data = json.loads(line.lstrip("event:message\ndata:"))
 
-                if json_data.get("message") == True:
-                    text = json_data["text"]
-
-                if json_data.get("final") == True:
-                    text = json_data["responseMessage"]["text"]
+                if json_data.get("delta"):
+                    text = json_data["delta"]
 
         return text
